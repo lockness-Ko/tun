@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"os/exec"
 	"os/user"
@@ -45,6 +47,20 @@ func main() {
 	case "stop":
 		fmt.Println("Stopping ngrok")
 		stopNgrok(srv)
+	case "url":
+		// Get the URL of the tunnel
+		resp, err := http.Get("http://localhost:4040/api/tunnels")
+		if err != nil {
+			fmt.Println("Tunnel is not started")
+			os.Exit(1)
+		}
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println("Tunnel is not started")
+			os.Exit(1)
+		}
+		fmt.Println(strings.Split(strings.Split(strings.TrimSpace(string(body)), "public_url\":\"")[1], "\"")[0])
 	case "":
 		os.Exit(1)
 	default:
