@@ -11,6 +11,8 @@ To install, you will need a few things
 
 ### > Windows
 
+TODO: This!
+
 ### > Linux
 
 Put linux in your path with this command:
