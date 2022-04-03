@@ -24,19 +24,24 @@ func main() {
 		os.Mkdir(srv, 0755)
 	}
 
-	if _, err := os.Stat(srv + "/running.lock"); err != nil {
-		runNgrok(srv)
-	}
-
 	if len(os.Args) <= 1 {
-		fmt.Println("Usage: tun <command>")
+		fmt.Print("Usage: tun <command>\n\nQuickly share files with friends using ngrok\n\n")
+		fmt.Println("Commands:")
+		fmt.Println("\tstart\tStart the tunnel")
+		fmt.Println("\tstop\tStop the tunnel")
+		fmt.Println("\turl\tGet the URL of the tunnel")
+		fmt.Println("\tadd\tAdd a file to be served")
 		os.Exit(1)
 	}
 
 	switch os.Args[1] {
 	case "start":
-		fmt.Println("Starting ngrok")
-		runNgrok(srv)
+		if _, err := os.Stat(srv + "/running.lock"); err != nil {
+			fmt.Println("Starting ngrok")
+			runNgrok(srv)
+		} else {
+			fmt.Println("The tunnel is already running")
+		}
 	case "stop":
 		fmt.Println("Stopping ngrok")
 		stopNgrok(srv)

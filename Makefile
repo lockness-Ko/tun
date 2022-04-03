@@ -3,8 +3,7 @@ all: linux
 build: windows linux
 
 windows: clean
-	export GOOS=windows
-	go build .
+	bash -c "GOOS=windows go build ."
 	strip ./tun.exe
 	mv ./tun.exe ./build/tun.exe
 
@@ -16,7 +15,7 @@ linux: clean
 	mv ./tun ./build/tun
 
 package: build
-	zip tun.zip ./tun
+	zip tun.zip ./build
 
 clean:
 	-rm ./build/tun
